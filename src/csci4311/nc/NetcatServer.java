@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class NetcatServer {
 
-    public static void main(String argv[]) throws Exception {
+    private static void runExample() throws Exception {
         String clientSentence, capitalizedSentence;
         Socket connectionSocket = null;
         ServerSocket welcomeSocket = new ServerSocket(6789, 0);
@@ -37,5 +37,9 @@ public class NetcatServer {
                 connectionSocket = null;
             }
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        runExample();
     }
 }

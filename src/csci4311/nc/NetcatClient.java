@@ -14,15 +14,15 @@ import java.net.Socket;
  */
 public class NetcatClient {
 
-    public static void main(String argv[]) throws Exception {
+    private static void runExample(String host) throws Exception {
         String sentence, modifiedSentence;
         Socket clientSocket = null;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Client ready for input");
         while ((sentence = inFromUser.readLine()) != null) {
             if (clientSocket == null) {
-                if (argv.length > 1) {
-                    clientSocket = new Socket(argv[1], 6789);
+                if (host != null) {
+                    clientSocket = new Socket(host, 6789);
                 } else {
                     clientSocket = new Socket("localhost", 6789);
                 }
@@ -35,5 +35,9 @@ public class NetcatClient {
             System.out.println("FROM SERVER: " + modifiedSentence);
             //clientSocket.close();
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        runExample(args[1]);
     }
 }
