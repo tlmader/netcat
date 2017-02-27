@@ -1,9 +1,7 @@
 package csci4311.nc;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -20,6 +18,12 @@ public class NetcatServer {
     private static Socket connectionSocket;
     private static ServerSocket welcomeSocket;
 
+    /**
+     * Creates welcome socket and starts update loop.
+     *
+     * @param host a port number
+     * @throws Exception
+     */
     private static void start(int host) throws Exception {
         connectionSocket = null;
         welcomeSocket = new ServerSocket(host, 0);
@@ -28,6 +32,11 @@ public class NetcatServer {
         }
     }
 
+    /**
+     * Performs update loop to handle arbitrary sequence of clients making requests.
+     *
+     * @throws Exception
+     */
     private static void update() throws Exception {
         if (connectionSocket == null) {
             connectionSocket = welcomeSocket.accept();
@@ -43,40 +52,32 @@ public class NetcatServer {
         connectionSocket = null;
     }
 
+    /**
+     * In download mode, server reads data from the socket and writes it to standard output.
+     *
+     * @throws Exception
+     */
     private static void download() throws Exception {
         DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
         String file = new Scanner(new File("filename")).useDelimiter("\\Z").next();
         outToClient.writeBytes(file);
     }
 
-    private static void upload() {
+    /**
+     * In upload mode, server reads data from its standard input device and writes it to the socket.
+     *
+     * @throws Exception
+     */
+    private static void upload() throws Exception {
 
     }
 
-    private static void runExample() throws Exception {
-        String clientSentence, capitalizedSentence;
-        Socket connectionSocket = null;
-        ServerSocket welcomeSocket = new ServerSocket(6789, 0);
-        System.out.println("Server Ready for Connection");
-        while (true) {
-            if (connectionSocket == null) {
-                connectionSocket = welcomeSocket.accept();
-                System.out.println("Client Made Connection");
-            }
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-            clientSentence = inFromClient.readLine();
-            System.out.println("Client sent: " + clientSentence);
-            capitalizedSentence = clientSentence.toUpperCase() + '\n';
-            outToClient.writeBytes(capitalizedSentence);
-            if (clientSentence.equals(".")) {
-                connectionSocket.close();
-                System.out.println("Closing connection!");
-                connectionSocket = null;
-            }
-        }
-    }
-
+    /**
+     * Starts execution of the program, requiring args[1] set to a port number.
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         if (args[1] != null) {
             start(Integer.parseInt(args[1]));
