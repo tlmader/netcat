@@ -29,10 +29,9 @@ public class NetcatClient {
             clientSocket = new Socket(host, port);
         }
         if (System.in.available() > 0) {
-            download();
-        } else {
             upload();
-        }
+        } else {
+            download();        }
         clientSocket.close();
     }
 

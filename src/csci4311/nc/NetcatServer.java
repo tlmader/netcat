@@ -27,6 +27,7 @@ public class NetcatServer {
      */
     private static void start(int port) throws Exception {
         connectionSocket = null;
+        System.out.println("Starting server on port " + port);
         welcomeSocket = new ServerSocket(port, 0);
         while (true) {
             update();
@@ -40,8 +41,9 @@ public class NetcatServer {
      */
     private static void update() throws Exception {
         if (connectionSocket == null) {
+            System.out.println("Accepting connections...");
             connectionSocket = welcomeSocket.accept();
-            System.out.println("Client Made Connection");
+            System.out.println("Client made connection");
         }
         if (System.in.available() > 0) {
             download();
@@ -49,7 +51,7 @@ public class NetcatServer {
             upload();
         }
         connectionSocket.close();
-        System.out.println("Closing connection!");
+        System.out.println("Closing connection");
         connectionSocket = null;
     }
 
