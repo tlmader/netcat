@@ -21,12 +21,12 @@ public class NetcatServer {
     /**
      * Creates welcome socket and starts update loop.
      *
-     * @param host a port number
+     * @param port a port number
      * @throws Exception
      */
-    private static void start(int host) throws Exception {
+    private static void start(int port) throws Exception {
         connectionSocket = null;
-        welcomeSocket = new ServerSocket(host, 0);
+        welcomeSocket = new ServerSocket(port, 0);
         while (true) {
             update();
         }
@@ -73,14 +73,14 @@ public class NetcatServer {
     }
 
     /**
-     * Starts execution of the program, requiring args[1] set to a port number.
+     * Starts execution of the program, requiring a port number as an argument.
      *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        if (args[1] != null) {
-            start(Integer.parseInt(args[1]));
+        if (args[0] != null) {
+            start(Integer.parseInt(args[0]));
         } else {
             System.out.println("usage:\ndownload: java csci4311.nc.NetcatServer [port] < [input-file]\nupload: java csci4311.nc.NetcatServer [port] > [output-file]");
         }
