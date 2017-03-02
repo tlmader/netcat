@@ -14,7 +14,7 @@ This is a simple Java implementation of the popular netcat (nc) tool (http://net
 
 ## Client/Server Pair
 
-***Netcat server*** binds to a specified port number on the local host and waits for a connection request from a client. Once a connection is established, it operates in one of two modes—download and upload.
+***Netcat server*** binds to a specified port number on the local host and waits for a connection request from a client. Once a connection is established, it operates in one of two modes: download and upload.
 * In download mode, it reads data from its standard input device and writes it to the socket.
 * In upload mode, it reads data from the socket and writes it to standard output.
 
