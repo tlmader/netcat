@@ -62,7 +62,12 @@ public class NetcatServer {
      */
     private static void download() throws Exception {
         DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-        String file = new Scanner(System.in).useDelimiter("\\Z").next();
+        Scanner input = new Scanner(System.in);
+        System.out.println("Reading the file passed in...");
+        String file = "";
+        while(input.hasNext()) {
+            outToClient.writeBytes(input.next());
+        }
         outToClient.writeBytes(file);
     }
 
