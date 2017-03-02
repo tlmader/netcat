@@ -1,4 +1,7 @@
-# Computer Networks Assignment 1: netcat
+# netcat
+
+**Computer Networks and Telecommunications Programming Assignment 1**
+
 This is a simple Java implementation of the popular netcat (nc) tool (http://netcat.sourceforge.net/), which provides a lightweight mechanism to transfer data across a network.
 
 ## File Structure
