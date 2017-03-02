@@ -26,7 +26,7 @@ public class NetcatClient {
      */
     private static void start(String host, int port) throws Exception {
         if (clientSocket == null) {
-            clientSocket = new Socket("localhost", 6789);
+            clientSocket = new Socket(host, port);
         }
         if (System.in.available() > 0) {
             download();
@@ -43,7 +43,7 @@ public class NetcatClient {
      */
     private static void download() throws Exception {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        System.out.println("FROM SERVER: " + inFromServer.readLine());
+        System.out.println(inFromServer.readLine());
     }
 
     /**
@@ -53,7 +53,7 @@ public class NetcatClient {
      */
     private static void upload() throws Exception {
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-        String file = new Scanner(new File("filename")).useDelimiter("\\Z").next();
+        String file = new Scanner(System.in).useDelimiter("\\Z").next();
         outToServer.writeBytes(file);
     }
     /**
