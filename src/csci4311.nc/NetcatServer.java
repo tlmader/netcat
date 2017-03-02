@@ -13,6 +13,7 @@ import java.util.Scanner;
  * @author tlmader.dev@gmail.com
  * @since 2017-02-27
  */
+@SuppressWarnings("JavaDoc")
 public class NetcatServer {
 
     private static Socket connectionSocket;
@@ -82,7 +83,7 @@ public class NetcatServer {
         if (args[0] != null) {
             start(Integer.parseInt(args[0]));
         } else {
-            System.out.println("usage:\ndownload: java csci4311.nc.NetcatServer [port] < [input-file]\nupload: java csci4311.nc.NetcatServer [port] > [output-file]");
+            System.out.println("usage:\ndownload: java main.java.nc.NetcatServer [port] < [original-file]\nupload: java main.java.nc.NetcatServer [port] > [uploaded-file]");
         }
     }
 }
