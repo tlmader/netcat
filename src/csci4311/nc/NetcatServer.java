@@ -2,7 +2,6 @@ package csci4311.nc;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,37 +18,32 @@ import java.util.Scanner;
 public class NetcatServer {
 
     private static Socket connectionSocket;
-    private static ServerSocket welcomeSocket;
     private static BufferedReader inFromClient;
 
     /**
-     * Creates welcome socket and starts update loop.
+     * Creates welcome socket and starts update loop to handle arbitrary sequence of clients making requests.
      *
      * @param port a port number
      * @throws Exception
      */
     private static void start(int port) throws Exception {
         connectionSocket = null;
-        welcomeSocket = new ServerSocket(port, 0);
+        ServerSocket welcomeSocket = new ServerSocket(port, 0);
+        boolean complete;
         while (true) {
-            update();
+            if (connectionSocket == null) {
+                connectionSocket = welcomeSocket.accept();
+            }
+            if (System.in.available() > 0) {
+                complete = download();
+            } else {
+                complete = upload();
+            }
+            if (complete) {
+                break;
+            }
         }
-    }
-
-    /**
-     * Performs update loop to handle arbitrary sequence of clients making requests.
-     *
-     * @throws Exception
-     */
-    private static void update() throws Exception {
-        if (connectionSocket == null) {
-            connectionSocket = welcomeSocket.accept();
-        }
-        if (System.in.available() > 0) {
-            download();
-        } else {
-            upload();
-        }
+        connectionSocket.close();
     }
 
     /**
@@ -58,11 +52,10 @@ public class NetcatServer {
      * @throws Exception
      */
     @SuppressWarnings("Duplicates")
-    private static void download() throws Exception {
+    private static boolean download() throws Exception {
         DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
         outToClient.writeBytes(new Scanner(System.in).useDelimiter("\\Z").next());
-        connectionSocket.close();
-        connectionSocket = null;
+        return true;
     }
 
     /**
@@ -70,15 +63,17 @@ public class NetcatServer {
      *
      * @throws Exception
      */
-    private static void upload() throws Exception {
+    private static boolean upload() throws Exception {
+        boolean complete = false;
         if (inFromClient == null) {
             inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
         }
         String line;
         while ((line = inFromClient.readLine()) != null) {
             System.out.println(line);
+            complete = true;
         }
-
+        return complete;
     }
 
     /**
