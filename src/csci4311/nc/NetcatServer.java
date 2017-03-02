@@ -20,6 +20,7 @@ public class NetcatServer {
 
     private static Socket connectionSocket;
     private static ServerSocket welcomeSocket;
+    private static BufferedReader inFromClient;
 
     /**
      * Creates welcome socket and starts update loop.
@@ -29,7 +30,6 @@ public class NetcatServer {
      */
     private static void start(int port) throws Exception {
         connectionSocket = null;
-        System.out.println("Starting server on port " + port);
         welcomeSocket = new ServerSocket(port, 0);
         while (true) {
             update();
@@ -43,18 +43,13 @@ public class NetcatServer {
      */
     private static void update() throws Exception {
         if (connectionSocket == null) {
-            System.out.println("Accepting connections...");
             connectionSocket = welcomeSocket.accept();
-            System.out.println("Client made connection");
         }
         if (System.in.available() > 0) {
             download();
         } else {
             upload();
         }
-        connectionSocket.close();
-        System.out.println("Closing connection");
-        connectionSocket = null;
     }
 
     /**
@@ -62,15 +57,12 @@ public class NetcatServer {
      *
      * @throws Exception
      */
+    @SuppressWarnings("Duplicates")
     private static void download() throws Exception {
         DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-        Scanner input = new Scanner(System.in);
-        System.out.println("Reading the file passed in...");
-        String file = "";
-        while(input.hasNext()) {
-            outToClient.writeBytes(input.next());
-        }
-        outToClient.writeBytes(file);
+        outToClient.writeBytes(new Scanner(System.in).useDelimiter("\\Z").next());
+        connectionSocket.close();
+        connectionSocket = null;
     }
 
     /**
@@ -79,8 +71,14 @@ public class NetcatServer {
      * @throws Exception
      */
     private static void upload() throws Exception {
-        BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-        System.out.println(inFromClient.readLine());
+        if (inFromClient == null) {
+            inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+        }
+        String line;
+        while ((line = inFromClient.readLine()) != null) {
+            System.out.println(line);
+        }
+
     }
 
     /**

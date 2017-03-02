@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class NetcatClient {
 
     private static Socket clientSocket;
+    private static BufferedReader inFromServer;
 
     /**
      * Creates client socket makes request to the server.
@@ -31,8 +32,8 @@ public class NetcatClient {
         if (System.in.available() > 0) {
             upload();
         } else {
-            download();        }
-        clientSocket.close();
+            download();
+        }
     }
 
     /**
@@ -41,8 +42,13 @@ public class NetcatClient {
      * @throws Exception
      */
     private static void download() throws Exception {
-        BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        System.out.println(inFromServer.readLine());
+        if (inFromServer == null) {
+            inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        }
+        String line;
+        while ((line = inFromServer.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 
     /**
@@ -50,11 +56,15 @@ public class NetcatClient {
      *
      * @throws Exception
      */
+    @SuppressWarnings("Duplicates")
     private static void upload() throws Exception {
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-        String file = new Scanner(System.in).useDelimiter("\\Z").next();
-        outToServer.writeBytes(file);
+        String file = "";
+        outToServer.writeBytes(new Scanner(System.in).useDelimiter("\\Z").next());
+        clientSocket.close();
+        clientSocket = null;
     }
+
     /**
      * Starts execution of the program, requiring a host name and port number as an argument.
      *
