@@ -40,14 +40,14 @@ java csci4311.nc.NetcatClient [host] [port] < [input-file]   # upload mode
 
 ## Example Usages
 
-Download a file from hostA to hostB:
+Download a file from server:
 ```
-hostA> java csci4311.nc.NetcatServer 1234 < original-file
-hostB> java csci4311.nc.NetcatClient hostA 1234 > downloaded-file
+java csci4311.nc.NetcatServer 1234 < small.txt
+java csci4311.nc.NetcatClient localhost 1234 > downloaded.txt
 ```
 
-Upload a file from hostB to hostA:
+Upload a file to server:
 ```
-hostA> java csci4311.nc.NetcatServer 4321 > uploaded-file
-hostB> java csci4311.nc.NetcatClient hostA 4321 < original-file
+java csci4311.nc.NetcatServer 4321 > uploaded.txt
+java csci4311.nc.NetcatClient localhost 4321 < lorem.txt
 ```
