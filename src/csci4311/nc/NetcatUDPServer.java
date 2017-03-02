@@ -1,14 +1,8 @@
 package csci4311.nc;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Establishes a connection to the server on the given host name (or IP address) and port number and operates in one of
