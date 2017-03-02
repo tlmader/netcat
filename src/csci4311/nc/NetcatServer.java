@@ -28,11 +28,11 @@ public class NetcatServer {
      */
     private static void start(int port) throws Exception {
         connectionSocket = null;
-        ServerSocket welcomeSocket = new ServerSocket(port, 0);
+        ServerSocket serverSocket = new ServerSocket(port, 0);
         boolean complete;
         while (true) {
             if (connectionSocket == null) {
-                connectionSocket = welcomeSocket.accept();
+                connectionSocket = serverSocket.accept();
             }
             if (System.in.available() > 0) {
                 complete = download();
