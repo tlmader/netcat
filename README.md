@@ -4,13 +4,13 @@ This is a simple Java implementation of the popular netcat (nc) tool (http://net
 ## File Structure
 
     .
-    ├── bin                          # binaries; run commands here
-    |   ├── lorem.txt                # large test file
-    |   └── small.txt                # small test file
-    └── src                          # source root
+    ├── bin                              # binaries; run commands here
+    |   ├── lorem.txt                    # large test file
+    |   └── small.txt                    # small test file
+    └── src                              # source root
         └── csci4311/nc
-            ├── NetcatClient.java    # client implementation
-            └── NetcatServer.java    # server implementation
+            ├── NetcatClient.java        # client implementation
+            └── NetcatServer.java        # server implementation
 
 ## Client/Server Pair
 
