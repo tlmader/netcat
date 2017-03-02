@@ -1,7 +1,9 @@
 package csci4311.nc;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -77,7 +79,8 @@ public class NetcatServer {
      * @throws Exception
      */
     private static void upload() throws Exception {
-
+        BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+        System.out.println(inFromClient.readLine());
     }
 
     /**
