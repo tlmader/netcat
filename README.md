@@ -4,7 +4,7 @@
 
 This is a simple Java implementation of the popular netcat (nc) tool (http://netcat.sourceforge.net/), which provides a lightweight mechanism to transfer data across a network.
 
-A UDP implementation of netcat is included. `csci4311.nc.NetcatUDPServer` and `csci4311.nc.NetcatUDPClient` function the same way but use UDP as the underlying communication mechanism.
+A UDP implementation of netcat is included. `NetcatUDPServer` and `NetcatUDPClient` function the same way but use UDP as the underlying communication mechanism.
 
 ## File Structure
 
