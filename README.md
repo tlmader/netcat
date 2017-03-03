@@ -44,6 +44,7 @@ Netcat client:
 java csci4311.nc.NetcatClient [host] [port] > [output-file]     # download mode
 java csci4311.nc.NetcatClient [host] [port] < [input-file]      # upload mode
 ```
+The UDP programs will run until terminated with `Ctrl-C`.
 
 Netcat UDP server:
 ```
