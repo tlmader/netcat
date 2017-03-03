@@ -52,8 +52,8 @@ public class NetcatUDPClient {
         Scanner input = new Scanner(System.in);
         while (input.hasNextLine()) {
             sendData = input.nextLine().getBytes();
+            clientSocket.send(new DatagramPacket(sendData, sendData.length, ipAddress, port));
         }
-        clientSocket.send(new DatagramPacket(sendData, sendData.length, ipAddress, port));
     }
 
     /**

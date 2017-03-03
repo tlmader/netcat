@@ -53,7 +53,7 @@ public class NetcatUDPServer {
         byte[] receiveData = new byte[1024];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         serverSocket.receive(receivePacket);
-        System.out.println(Arrays.toString(receivePacket.getData()));
+        System.out.println(new String(receivePacket.getData()).trim());
     }
 
     /**
