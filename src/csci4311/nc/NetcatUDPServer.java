@@ -2,7 +2,6 @@ package csci4311.nc;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -16,6 +15,9 @@ import java.util.Scanner;
 public class NetcatUDPServer {
 
     private static DatagramSocket serverSocket;
+    private static DatagramPacket pingPacket;
+    private static boolean downloadMode;
+    private static boolean pinged;
 
     /**
      * Creates welcome socket and starts update loop to handle arbitrary sequence of clients making requests.
@@ -26,8 +28,11 @@ public class NetcatUDPServer {
     @SuppressWarnings("InfiniteLoopStatement")
     private static void start(int port) throws Exception {
         serverSocket = new DatagramSocket(port);
+        if (System.in.available() > 0) {
+            downloadMode = true;
+        }
         while (true) {
-            if (System.in.available() > 0) {
+            if (downloadMode) {
                 download(port);
             } else {
                 upload();
@@ -41,13 +46,16 @@ public class NetcatUDPServer {
      * @throws Exception
      */
     private static void download(int port) throws Exception {
-        byte[] receiveData = new byte[1024];
-        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        serverSocket.receive(receivePacket);
+        if (!pinged) {
+            byte[] receiveData = new byte[1024];
+            pingPacket = new DatagramPacket(receiveData, receiveData.length);
+            serverSocket.receive(pingPacket);
+            pinged = true;
+        }
         Scanner input = new Scanner(System.in);
         while (input.hasNextLine()) {
             byte[] sendData = input.nextLine().getBytes();
-            serverSocket.send(new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), port));
+            serverSocket.send(new DatagramPacket(sendData, sendData.length, pingPacket.getAddress(), port));
         }
     }
 
@@ -57,6 +65,7 @@ public class NetcatUDPServer {
      * @throws Exception
      */
     private static void upload() throws Exception {
+        System.out.println("NO!");
         byte[] receiveData = new byte[1024];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         serverSocket.receive(receivePacket);

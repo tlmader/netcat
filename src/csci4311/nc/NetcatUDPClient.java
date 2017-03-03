@@ -42,8 +42,8 @@ public class NetcatUDPClient {
     private static void download(int port) throws Exception {
         if (!pinged) {
             byte[] sendData = "".getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-            clientSocket.send(sendPacket);
+            DatagramPacket pingPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+            clientSocket.send(pingPacket);
             pinged = true;
         }
         byte[] receiveData = new byte[1024];
