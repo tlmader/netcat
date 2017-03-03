@@ -70,3 +70,15 @@ Upload a file to server:
 java csci4311.nc.NetcatServer 4321 > uploaded.txt
 java csci4311.nc.NetcatClient localhost 4321 < lorem.txt
 ```
+
+Download a file from server via UDP:
+```
+java csci4311.nc.NetcatUDPServer 1234 < small.txt
+java csci4311.nc.NetcatUDPClient localhost 1234 > downloaded.txt
+```
+
+Upload a file to server via UDP:
+```
+java csci4311.nc.NetcatUDPServer 4321 > uploaded.txt
+java csci4311.nc.NetcatUDPClient localhost 4321 < lorem.txt
+```
