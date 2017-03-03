@@ -4,6 +4,8 @@
 
 This is a simple Java implementation of the popular netcat (nc) tool (http://netcat.sourceforge.net/), which provides a lightweight mechanism to transfer data across a network.
 
+A UDP implementation of netcat is included. `csci4311.nc.NetcatUDPServer` and `csci4311.nc.NetcatUDPClient` function the same way but use UDP as the underlying communication mechanism.
+
 ## File Structure
 
     .
@@ -13,7 +15,9 @@ This is a simple Java implementation of the popular netcat (nc) tool (http://net
     └── src                              # source root
         └── csci4311/nc
             ├── NetcatClient.java        # client implementation
-            └── NetcatServer.java        # server implementation
+            ├── NetcatServer.java        # server implementation
+            ├── NetcatUDPClient.java     # client UDP implementation
+            └── NetcatUDPServer.java     # server UDP implementation
 
 ## Client/Server Pair
 
@@ -31,14 +35,26 @@ From the `bin` directory, you can run the following commands:
 
 Netcat server:
 ```
-java csci4311.nc.NetcatServer [port] < [input-file]          # download mode
-java csci4311.nc.NetcatServer [port] > [output-file]         # upload mode
+java csci4311.nc.NetcatServer [port] < [input-file]             # download mode
+java csci4311.nc.NetcatServer [port] > [output-file]            # upload mode
 ```
 
 Netcat client:
 ```
-java csci4311.nc.NetcatClient [host] [port] > [output-file]  # download mode
-java csci4311.nc.NetcatClient [host] [port] < [input-file]   # upload mode
+java csci4311.nc.NetcatClient [host] [port] > [output-file]     # download mode
+java csci4311.nc.NetcatClient [host] [port] < [input-file]      # upload mode
+```
+
+Netcat UDP server:
+```
+java csci4311.nc.NetcatUDPServer [port] < [input-file]          # download mode
+java csci4311.nc.NetcatUDPServer [port] > [output-file]         # upload mode
+```
+
+Netcat UDP client:
+```
+java csci4311.nc.NetcatUDPClient [host] [port] > [output-file]  # download mode
+java csci4311.nc.NetcatUDPClient [host] [port] < [input-file]   # upload mode
 ```
 
 ## Example Usages
