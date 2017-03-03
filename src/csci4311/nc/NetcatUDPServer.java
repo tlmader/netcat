@@ -3,6 +3,7 @@ package csci4311.nc;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Establishes a connection to the server on the given host name (or IP address) and port number and operates in one of
@@ -27,7 +28,7 @@ public class NetcatUDPServer {
         serverSocket = new DatagramSocket(port);
         while (true) {
             if (System.in.available() > 0) {
-                download();
+                download(port);
             } else {
                 upload();
             }
@@ -39,9 +40,15 @@ public class NetcatUDPServer {
      *
      * @throws Exception
      */
-    @SuppressWarnings("Duplicates")
-    private static boolean download() throws Exception {
-        return true;
+    private static void download(int port) throws Exception {
+        byte[] receiveData = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        serverSocket.receive(receivePacket);
+        Scanner input = new Scanner(System.in);
+        while (input.hasNextLine()) {
+            byte[] sendData = input.nextLine().getBytes();
+            serverSocket.send(new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), port));
+        }
     }
 
     /**

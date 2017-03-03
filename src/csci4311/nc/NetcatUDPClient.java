@@ -16,6 +16,7 @@ public class NetcatUDPClient {
 
     private static DatagramSocket clientSocket;
     private static InetAddress ipAddress;
+    private static boolean pinged;
 
     /**
      * Creates client socket makes request to the server.
@@ -28,7 +29,7 @@ public class NetcatUDPClient {
         if (System.in.available() > 0) {
             upload(port);
         } else {
-            download();
+            download(port);
         }
         clientSocket.close();
     }
@@ -38,7 +39,17 @@ public class NetcatUDPClient {
      *
      * @throws Exception
      */
-    private static void download() throws Exception {
+    private static void download(int port) throws Exception {
+        if (!pinged) {
+            byte[] sendData = "".getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+            clientSocket.send(sendPacket);
+            pinged = true;
+        }
+        byte[] receiveData = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        clientSocket.receive(receivePacket);
+        System.out.println(new String(receivePacket.getData()).trim());
     }
 
     /**
@@ -48,10 +59,9 @@ public class NetcatUDPClient {
      */
     @SuppressWarnings("Duplicates")
     private static void upload(int port) throws Exception {
-        byte[] sendData = new byte[1024];
         Scanner input = new Scanner(System.in);
         while (input.hasNextLine()) {
-            sendData = input.nextLine().getBytes();
+            byte[] sendData = input.nextLine().getBytes();
             clientSocket.send(new DatagramPacket(sendData, sendData.length, ipAddress, port));
         }
     }
