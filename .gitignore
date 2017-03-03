@@ -55,9 +55,6 @@ fabric.properties
 # *.ipr
 
 ### Java ###
-# Compiled class file
-*.class
-
 # Log file
 *.log
 

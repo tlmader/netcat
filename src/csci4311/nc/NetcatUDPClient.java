@@ -16,6 +16,7 @@ public class NetcatUDPClient {
 
     private static DatagramSocket clientSocket;
     private static InetAddress ipAddress;
+    private static boolean uploadMode;
     private static boolean pinged;
 
     /**
@@ -23,15 +24,20 @@ public class NetcatUDPClient {
      *
      * @throws Exception
      */
+    @SuppressWarnings("InfiniteLoopStatement")
     private static void start(String host, int port) throws Exception {
         clientSocket = new DatagramSocket();
         ipAddress = InetAddress.getByName(host);
         if (System.in.available() > 0) {
-            upload(port);
-        } else {
-            download(port);
+            uploadMode = true;
         }
-        clientSocket.close();
+        while (true) {
+            if (uploadMode) {
+                upload(port);
+            } else {
+                download(port);
+            }
+        }
     }
 
     /**
@@ -46,7 +52,7 @@ public class NetcatUDPClient {
             clientSocket.send(pingPacket);
             pinged = true;
         }
-        byte[] receiveData = new byte[1024];
+        byte[] receiveData = new byte[4096];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         clientSocket.receive(receivePacket);
         System.out.println(new String(receivePacket.getData()).trim());

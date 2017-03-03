@@ -55,7 +55,7 @@ public class NetcatUDPServer {
         Scanner input = new Scanner(System.in);
         while (input.hasNextLine()) {
             byte[] sendData = input.nextLine().getBytes();
-            serverSocket.send(new DatagramPacket(sendData, sendData.length, pingPacket.getAddress(), port));
+            serverSocket.send(new DatagramPacket(sendData, sendData.length, pingPacket.getAddress(), pingPacket.getPort()));
         }
     }
 
@@ -66,7 +66,7 @@ public class NetcatUDPServer {
      */
     private static void upload() throws Exception {
         System.out.println("NO!");
-        byte[] receiveData = new byte[1024];
+        byte[] receiveData = new byte[4096];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         serverSocket.receive(receivePacket);
         System.out.println(new String(receivePacket.getData()).trim());
