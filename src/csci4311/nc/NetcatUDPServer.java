@@ -33,7 +33,7 @@ public class NetcatUDPServer {
         }
         while (true) {
             if (downloadMode) {
-                download(port);
+                download();
             } else {
                 upload();
             }
@@ -45,7 +45,7 @@ public class NetcatUDPServer {
      *
      * @throws Exception
      */
-    private static void download(int port) throws Exception {
+    private static void download() throws Exception {
         if (!pinged) {
             byte[] receiveData = new byte[1024];
             pingPacket = new DatagramPacket(receiveData, receiveData.length);
@@ -65,7 +65,6 @@ public class NetcatUDPServer {
      * @throws Exception
      */
     private static void upload() throws Exception {
-        System.out.println("NO!");
         byte[] receiveData = new byte[4096];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         serverSocket.receive(receivePacket);
